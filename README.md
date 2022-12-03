@@ -9,7 +9,7 @@
 
 This repo offers an executable, property-based test suite for Ampleforth's AMPL token.
 
-The `AMPLProp` contract provides functions to check whether a property of the AMPL token in a current state is true.
+The `AMPLProp` contract provides functions to check whether a property of the AMPL token in a current state is held.
 
 The `AMPLTest` contract uses the foundry fuzzer to first create a pseudo-random state for the AMPL token, and
 afterwards checks via the `AMPLProp` contract whether the properties hold.
