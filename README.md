@@ -15,7 +15,7 @@ The `AMPLTest` contract uses the foundry fuzzer to first create a pseudo-random 
 afterwards checks via the `AMPLProp` contract whether the properties hold.
 
 
-### Properties
+## Properties
 
 > **Note**
 >
