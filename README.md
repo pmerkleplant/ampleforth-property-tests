@@ -1,6 +1,6 @@
 <img align="right" width="150" height="150" top="100" src="./assets/logo.png">
 
-# Ampleforth Property Tests •
+# Ampleforth Property Tests • [![ci](https://github.com/pmerkleplant/ampleforth-property-tests/actions/workflows/unit-tests.yml/badge.svg)](https://github.com/pmerkleplant/ampleforth-property-tests/actions/workflows/unit-tests.yml) [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
 > A project to collect and test properties of Ampleforth's [AMPL](https://docs.ampleforth.org/learn/about-the-ampleforth-protocol) token.
 
