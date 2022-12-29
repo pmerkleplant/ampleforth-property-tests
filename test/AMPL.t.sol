@@ -53,29 +53,9 @@ contract AMPLTest is AMPLProp {
         prop_ConversionRate(state.users);
     }
 
-    function test_prop_RebaseIsNonDilutive(State memory state) public {
+    function test_prop_RebaseIsNonDilutive(State memory state, int supplyDelta) public {
         setUpAMPL(state);
-
-        // Cache the scaled balances for each user.
-        uint[] memory scaledBalancesBefore = new uint[](state.users.length);
-        for (uint i; i < state.users.length; i++) {
-            scaledBalancesBefore[i] = ampl.scaledBalanceOf(state.users[i]);
-        }
-
-        // Execute a rebase.
-        uint halfOfSupply = ampl.totalSupply() / 2;
-        int supplyDelta = halfOfSupply < MAX_SUPPLY ? int(halfOfSupply) : -1 * int(halfOfSupply);
-
-        vm.prank(state.monetaryPolicy);
-        ampl.rebase(1, supplyDelta);
-
-        // Get the scaled balances for each user.
-        uint[] memory scaledBalancesAfter = new uint[](state.users.length);
-        for (uint i; i < state.users.length; i++) {
-            scaledBalancesAfter[i] = ampl.scaledBalanceOf(state.users[i]);
-        }
-
-        prop_RebaseIsNonDilutive(scaledBalancesBefore, scaledBalancesAfter);
+        prop_RebaseIsNonDilutive(state.users, supplyDelta);
     }
 
     /*//////////////////////////////////////////////////////////////
@@ -92,9 +72,9 @@ contract AMPLTest is AMPLProp {
         prop_TotalSupplyNeverZero();
     }
 
-    function test_prop_SumOfAllBalancesNeverExceedsMaxSupply(State memory state) public {
+    function test_prop_SumOfAllBalancesNeverExceedsTotalSupply(State memory state) public {
         setUpAMPL(state);
-        prop_SumOfAllBalancesNeverExceedsMaxSupply(state.owner, state.users);
+        prop_SumOfAllBalancesNeverExceedsTotalSupply(state.owner, state.users);
     }
 
     /*//////////////////////////////////////////////////////////////

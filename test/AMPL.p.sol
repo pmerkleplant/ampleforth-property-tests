@@ -28,9 +28,16 @@ abstract contract AMPLProp is Test {
     }
 
     /// @dev A rebase operation is non-dilutive, i.e. does not change the wallet wealth distribution.
-    function prop_RebaseIsNonDilutive(uint[] memory scaledBalancesBefore, uint[] memory scaledBalancesAfter) public {
-        for (uint i; i < scaledBalancesBefore.length; i++) {
-            assertEq(scaledBalancesBefore[i], scaledBalancesAfter[i]);
+    function prop_RebaseIsNonDilutive(address[] memory users, int supplyDelta) public {
+        uint[] memory gonBalancesBeforeRebase = new uint[](users.length);
+        for (uint i; i < users.length; i++) {
+            gonBalancesBeforeRebase[i] = ampl.scaledBalanceOf(users[i]);
+        }
+
+        try ampl.rebase(1, supplyDelta) {} catch {}
+
+        for (uint i; i < users.length; i++) {
+            assertEq(ampl.scaledBalanceOf(users[i]), gonBalancesBeforeRebase[i]);
         }
     }
 
@@ -38,7 +45,7 @@ abstract contract AMPLProp is Test {
                               TOTAL SUPPLY
     //////////////////////////////////////////////////////////////*/
 
-    /// @dev The total supply never exceeded the defined max supply.
+    /// @dev The total supply never exceeds the defined max supply.
     function prop_TotalSupplyNeverExceedsMaxSupply() public {
         assertTrue(ampl.totalSupply() <= MAX_SUPPLY);
     }
@@ -49,7 +56,7 @@ abstract contract AMPLProp is Test {
     }
 
     /// @dev The sum of all balances never exceeds the total supply.
-    function prop_SumOfAllBalancesNeverExceedsMaxSupply(address owner, address[] memory users) public {
+    function prop_SumOfAllBalancesNeverExceedsTotalSupply(address owner, address[] memory users) public {
         uint sum = ampl.balanceOf(owner);
         for (uint i; i < users.length; i++) {
             sum += ampl.balanceOf(users[i]);
@@ -74,8 +81,8 @@ abstract contract AMPLProp is Test {
             ampl.transfer(owner, wantIncrease);
 
             assertEq(ampl.balanceOf(users[i]), 0);
-
             assertEq(before + wantIncrease, ampl.balanceOf(owner));
+
             before += wantIncrease;
         }
     }
@@ -105,8 +112,7 @@ abstract contract AMPLProp is Test {
         address owner;
         address receiver;
         for (uint i; i < users.length; i++) {
-            // Send tokens from yourself to yourself via transferFrom. Note that a user does not have allowance set for
-            // themself.
+            // Note that users do not have allowance set for themselves.
             spender = users[i];
             owner = users[i];
             receiver = users[i];

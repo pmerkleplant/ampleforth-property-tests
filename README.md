@@ -9,10 +9,7 @@
 
 This repo offers an executable, property-based test suite for Ampleforth's AMPL token.
 
-The `AMPLProp` contract provides functions to check whether a property of the AMPL token in a current state is held.
-
-The `AMPLTest` contract uses the foundry fuzzer to first create a pseudo-random state for the AMPL token, and
-afterwards checks via the `AMPLProp` contract whether the properties hold.
+For more info, see the accompanying post [_Property-based Testing Ampleforth_]().
 
 
 ## Properties
@@ -43,7 +40,6 @@ The project currently tests the following properties:
 - A transfer of zero AMPL is always possible
 - Calling the `tranferAllFrom` function reverts when the balance of the owner is non-zero and the allowance of the spender
   is zero
-    - Note that this is independent of the scaled balance of the owner!
 
 
 ## Usage
@@ -68,8 +64,12 @@ $ forge test
 
 Run test suite with full stack trace:
 ```bash
-forge test -vvvv
+$ forge test -vvvv
 ```
+
+## Trophies
+
+* Via the `transferAllFrom` function its possible to steal a non-zero amount of gons iff the derived AMPL amount rounds down to zero.
 
 ## License
 
