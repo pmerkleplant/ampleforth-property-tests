@@ -9,7 +9,7 @@
 
 This repo offers an executable, property-based test suite for Ampleforth's AMPL token.
 
-For more info, see the accompanying post [_Property-based Testing Ampleforth_]().
+For more info, see the accompanying post [_Property-based Testing Ampleforth_](https://garden.merkleplant.xyz/post/property-based-testing-ampleforth/).
 
 
 ## Properties
